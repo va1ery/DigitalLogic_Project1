@@ -53,10 +53,7 @@ module Arithmetic(input [1:0]select, input [7:0]z, output COUT, output [7:0]resu
 	
 	//generate multiplexor for carry LED
 	wire [3:0]temp_carry;
-	assign temp_carry[0] = add_carry[4];
-	assign temp_carry[1] = sub_carry[4];
-	assign temp_carry[2] = z[7];
-	assign temp_carry[3] = z[0];
+	assign temp_carry[3:0] = {z[0],z[7],sub_carry[4],add_carry[4]};
 	MUX carry_mux(temp_carry[3:0],select[1:0],COUT);
 	defparam carry_mux.n = 1;
 	

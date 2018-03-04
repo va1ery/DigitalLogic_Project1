@@ -29,18 +29,17 @@ module Comparison(input [1:0]select, input [7:0]z, output [3:0]result);
 	assign max_out[3:0] = ({greater_out[0],greater_out[0],greater_out[0],greater_out[0]} & x[3:0])
 		| ({~greater_out[0],~greater_out[0],~greater_out[0],~greater_out[0]} & y[3:0]);
 	
-	wire [3:0]temp_result[3:0];
+	wire [3:0]temp_result;
 	assign temp_result[0] = {equal_out[0],greater_out[0],less_out[0],max_out[0]};
+	
+	genvar i;
 	generate
 		for(i=1; i<4; i=i+1) begin: temp_assignment
 			assign temp_result[i] = {1'b0,1'b0,1'b0,max_out[i]};
 		end
 	endgenerate
-	genvar i;
-	generate
-		for(i=0; i<4; i=i+1) begin: multiplexor
-			MUX4_1(temp_result[i],~select[1:0],result[i]);
-		end
-	endgenerate
+
+	MUX output_mux(temp_result[3:0],~select[1:0],result[3:0]);
+	defparam output_mux.n = 4;
 
 endmodule
