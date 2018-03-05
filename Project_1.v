@@ -1,7 +1,7 @@
 module Project_1( input [1:0]KEY,
 						input [9:0]SW,input CLK,
 						output [9:0]LED,
-						output [6:0]HEXOUT_0,output [6:0]HEXOUT_1, output [6:0]HEXOUT_2, output [6:0]HEXOUT_3);
+						output [7:0]HEXOUT_0,output [7:0]HEXOUT_1, output [6:0]HEXOUT_2, output [6:0]HEXOUT_3);
 	reg [3:0]module_select;
 	
 	wire [7:0]arithmetic_out;
@@ -39,8 +39,14 @@ module Project_1( input [1:0]KEY,
 	defparam HEX1_MUX.n = 4;
 	SevenSegment HEX1(HEX1_in[3:0],HEXOUT_1[6:0]);
 	
-	//use a multiplexor to switch between the different outputs of the LEDs depending on the module selection
+	//if the processor is in arithmetic mode, have the most significant decimal point match the multiplication carry,
+	//and least significant match the division carry
+	assign HEXOUT_0[7] = ~(~module_select[0] & ~module_select[1] & SW[9] & SW[8] & math_carry[9]);
+	assign HEXOUT_1[7] = ~(~module_select[0] & ~module_select[1] & SW[9] & ~SW[8] & math_carry[9]);
+	
+	//use a 10 bit multiplexor to switch between the different outputs of the LEDs depending on the module selection
 	MUX LED_MUX({magic_output[9:0],10'b0000000000,logical_out[9:0],math_carry[9:0]},module_select[1:0],LED[9:0]);
 	defparam LED_MUX.n = 10;
 	
 endmodule
+

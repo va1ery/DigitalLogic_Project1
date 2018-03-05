@@ -1,6 +1,7 @@
 module SevenSegment(x[3:0], f[6:0]);
 	input [3:0]x;
 	output reg [6:0]f;
+	//always block to output the correct 7 bits in accordance to the BCD sent in
 	always @(x)
 	begin
 		case(x)

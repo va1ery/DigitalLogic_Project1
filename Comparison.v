@@ -1,9 +1,10 @@
 module Comparison(input [1:0]select, input [7:0]z, output [3:0]result);
 	wire [3:0]x;
 	wire [3:0]y;
-	assign x[3:0] = z[3:0];
-	assign y[3:0] = z[7:4];
+	assign y[3:0] = z[3:0];
+	assign x[3:0] = z[7:4];
 	
+	//equals assignment, making it 4 bits even though 1 is need so that it can be sent to the multiplexor
 	reg [3:0]equal_out;
 	always@(x,y)
 	begin
@@ -11,6 +12,7 @@ module Comparison(input [1:0]select, input [7:0]z, output [3:0]result);
 		else equal_out[0] = 0;
 	end
 	
+	//greater than assignment, making it 4 bits even though 1 is need so that it can be sent to the multiplexor
 	reg [3:0]greater_out;
 	always@(x,y)
 	begin
@@ -18,6 +20,7 @@ module Comparison(input [1:0]select, input [7:0]z, output [3:0]result);
 		else greater_out[0] = 0;
 	end
 	
+	//less than assignment, making it 4 bits even though 1 is need so that it can be sent to the multiplexor
 	reg [3:0]less_out;
 	always@(x,y)
 	begin
@@ -25,10 +28,12 @@ module Comparison(input [1:0]select, input [7:0]z, output [3:0]result);
 		else less_out[0] = 0;
 	end
 	
+	//use the result of the greater than assignment to generate the maximum of the two numbers
 	wire [3:0]max_out;
 	assign max_out[3:0] = ({greater_out[0],greater_out[0],greater_out[0],greater_out[0]} & x[3:0])
 		| ({~greater_out[0],~greater_out[0],~greater_out[0],~greater_out[0]} & y[3:0]);
 	
+	//concaninating the 4 different results together to be sent through the multiplexor
 	wire [3:0]temp_result;
 	assign temp_result[0] = {equal_out[0],greater_out[0],less_out[0],max_out[0]};
 	
@@ -39,7 +44,8 @@ module Comparison(input [1:0]select, input [7:0]z, output [3:0]result);
 		end
 	endgenerate
 
-	MUX output_mux(temp_result[3:0],~select[1:0],result[3:0]);
+	//use a 4 bit multiplexor to output the proper output
+	MUX output_mux({equal_out[3:0],greater_out[3:0],less_out[3:0],max_out[3:0]},~select[1:0],result[3:0]);
 	defparam output_mux.n = 4;
 
 endmodule

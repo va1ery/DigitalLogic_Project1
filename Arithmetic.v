@@ -1,14 +1,14 @@
 module Arithmetic(input [1:0]select, input [7:0]z, output COUT, output [7:0]result);
 	wire [3:0]x;
 	wire [3:0]y;
-	assign x[3:0] = z[3:0];
-	assign y[3:0] = z[7:4];
+	assign y[3:0] = z[3:0];
+	assign x[3:0] = z[7:4];
 	
 
 	//4 bit adder (x+y)
 	wire [7:0]add_out;
 	wire [4:0]add_carry;
-	
+	//chain together 4 full adders to get 4 bits of addition
 	genvar i;
 	generate
 		for(i=0; i<4; i=i+1) begin: adder
@@ -19,7 +19,7 @@ module Arithmetic(input [1:0]select, input [7:0]z, output COUT, output [7:0]resu
 	//4 bit subtractor (x-y)
 	wire [7:0]sub_out;
 	wire [4:0]sub_carry;
-	
+	//chain together 4 full subtractors to get 4 bits of subtraction
 	generate
 		for(i=0; i<4; i=i+1) begin: subtractor
 			Full_Subtractor(sub_carry, x[i], y[i], sub_out[i], sub_carry[i+1]);
@@ -59,11 +59,13 @@ module Arithmetic(input [1:0]select, input [7:0]z, output COUT, output [7:0]resu
 	
 endmodule
 
+//module that subtracts y from x and produces the difference and borrow
 module Full_Subtractor(input BIN, input a, input b, output difference, output BOUT);
 	assign difference = a ^ b ^ BIN;
 	assign BOUT = (a & ~BIN) | (a & ~b) | (b & BIN);
 endmodule
 
+//module that adds x and y and produces the sum and carry
 module Full_Adder(input CIN, input a, input b, output sum, output COUT);
 	assign sum = CIN ^ a ^ b;
 	assign COUT = (a & b) | (a & CIN) | (b & CIN);
