@@ -1,3 +1,5 @@
+//Alex Johnson ECEN 2350 Spring 2018
+//module to display the nightrider LED sequence on the 10 LEDs
 module Magic(input CLK, output [9:0]LED_array);
 	integer clock_count;
 	reg [13:0]light_register = 13'b00000000000111;

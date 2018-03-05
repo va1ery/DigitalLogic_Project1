@@ -1,3 +1,5 @@
+//Alex Johnson ECEN 2350 Spring 2018
+//module to do very basic logic on 4x2 or 8 bit input resulting in a 4 or 8 bit output
 module Logical(input [1:0]select, input [7:0]z, output [7:0]result);
 	wire [3:0]x;
 	wire [3:0]y;

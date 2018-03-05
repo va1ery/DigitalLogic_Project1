@@ -1,3 +1,5 @@
+//Alex Johnson ECEN 2350 Spring 2018
+//seven segment module that takes 4 BCD digits and decodes them to 7 bits for a seven segment display
 module SevenSegment(x[3:0], f[6:0]);
 	input [3:0]x;
 	output reg [6:0]f;

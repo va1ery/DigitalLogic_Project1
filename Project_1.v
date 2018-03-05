@@ -1,3 +1,5 @@
+//Alex Johnson ECEN 2350 Spring 2018 Project 1
+//top module to decode inputs into different modules and select the appropriate outputs
 module Project_1( input [1:0]KEY,
 						input [9:0]SW,input CLK,
 						output [9:0]LED,
@@ -23,7 +25,7 @@ module Project_1( input [1:0]KEY,
 	//display what module number the user is in on HEX_3
 	SevenSegment HEX3(module_select[3:0],HEXOUT_3[6:0]);
 	//Use the first button to cycle one way through the different modules
-	always@(posedge KEY[0])
+	always@(posedge KEY[0],posedge KEY[1])
 	begin
 			module_select = (module_select + 1) % 4;
 	end

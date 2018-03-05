@@ -1,3 +1,5 @@
+//Alex Johnson ECEN 2350 Spring 2018
+//module to do basic arithmetic on given 4x2 or 8 bit data; resulting in an 4/8 bit output and carry out
 module Arithmetic(input [1:0]select, input [7:0]z, output COUT, output [7:0]result);
 	wire [3:0]x;
 	wire [3:0]y;

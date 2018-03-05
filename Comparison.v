@@ -1,3 +1,5 @@
+//Alex Johnson ECEN 2350 Spring 2018
+//module to do comparison logic on 4x2 or 8 bit inputs, resulting in a 4 bit output
 module Comparison(input [1:0]select, input [7:0]z, output [3:0]result);
 	wire [3:0]x;
 	wire [3:0]y;

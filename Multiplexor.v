@@ -1,3 +1,4 @@
+//Alex Johnson ECEN 2350 Spring 2018
 //multiplexor module that will switch between 4 inputs given depending on selection bits
 //parameter n determines the size of the input and output buses (1=1 bit bus, 4=4 bit bus, etc.)
 module MUX(input [4*n-1:0]x, input[1:0]s, output reg [n-1:0]f);
